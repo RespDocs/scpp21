@@ -9,6 +9,8 @@
 :root{--b:#1565C0;--bg:#f5f7fa;--c:#222;--card:#fff;--g:#e8f5e9;--y:#fff8e1}
 @media(prefers-color-scheme:dark){:root{--bg:#121212;--c:#eee;--card:#1e1e1e;--g:#17351f;--y:#4d4317}}
 html{scroll-behavior:smooth}body{margin:0;font-family:Roboto,sans-serif;background:var(--bg);color:var(--c)}
+.topbar{padding:16px 20px}
+.back{display:inline-block;background:var(--b);color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-weight:500}
 header{background:var(--b);color:#fff;padding:32px;text-align:center}
 main{max-width:980px;margin:auto;padding:20px}
 .card{background:var(--card);border-radius:14px;padding:18px;margin:18px 0;box-shadow:0 2px 8px #0002;animation:f .5s}
@@ -20,8 +22,12 @@ a.btn{display:inline-block;background:var(--b);color:#fff;text-decoration:none;p
 nav a{display:block;padding:4px 0}
 #top{position:fixed;right:15px;bottom:15px;background:var(--b);color:#fff;padding:10px 12px;border-radius:50%;text-decoration:none}
 @keyframes f{from{opacity:0;transform:translateY(8px)}}
-@media print{#top,nav,a.btn{display:none}body{background:#fff}}
-</style></head><body>
+@media print{#top,nav,a.btn,.topbar{display:none}body{background:#fff}}
+</style></head>
+<body>
+<div class="topbar">
+<a class="back" href="https://respdocs.github.io/scpp21/">← Volver</a>
+</div>
 <header><h1>⚖️ MARCO LEGAL</h1><p>Normativa chilena que respalda la validez de los documentos vehiculares digitales.</p></header>
 <main>
 <div class="card"><p>Esta página resume la normativa vigente que reconoce la validez jurídica de documentos electrónicos oficiales.</p></div>
