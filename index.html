@@ -41,9 +41,33 @@ body{
     padding:20px;
 }
 
+.header{
+    display:flex;
+    justify-content:flex-start;
+    margin-bottom:10px;
+}
+
+.btn-volver{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:10px 14px;
+    background:#1976d2;
+    color:#fff;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:600;
+    box-shadow:var(--shadow);
+    transition:.2s;
+}
+
+.btn-volver:hover{
+    opacity:.9;
+}
+
 h1{
     text-align:center;
-    margin-bottom:24px;
+    margin:10px 0 24px;
 }
 
 .card{
@@ -94,9 +118,15 @@ h1{
 
 <div class="app">
 
-<h1>Documentos Digitales SCPP21</h1>
+    <div class="header">
+        <a class="btn-volver" href="https://respdocs.github.io/scpp21/">
+            ← Volver
+        </a>
+    </div>
 
-<div id="lista"></div>
+    <h1>Documentos Digitales SCPP21</h1>
+
+    <div id="lista"></div>
 
 </div>
 
@@ -171,7 +201,7 @@ function estado(fecha){
         cls = "yellow";
     }
 
-    return{
+    return {
         dias,
         cls
     };
@@ -189,8 +219,6 @@ enlaces.forEach(e=>{
     const a = document.createElement("a");
 
     a.href = e.url;
-
-    // Abrir en la misma pestaña
     a.target = "_self";
 
     if(e.vence){
@@ -208,17 +236,12 @@ enlaces.forEach(e=>{
             </div>
         `;
 
-    }
-    else{
+    }else{
 
         a.className = "card green";
 
         a.innerHTML = `
             <div class="title">📘 ${e.titulo}</div>
-
-            <div class="row">
-                <span>📄 Sin fecha de vencimiento</span>
-            </div>
         `;
 
     }
