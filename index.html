@@ -209,8 +209,6 @@ const CONFIG={
 
     password:"mmorales"
 
-    loginHoras:6
-
 };
 
 const BASE_URL=`https://respdocs.github.io/${CONFIG.patente.toLowerCase()}/`;
@@ -396,51 +394,8 @@ LOGIN
 function mostrarPortal(){
 
     loginOverlay.style.display="none";
+
     siteContent.style.display="block";
-
-}
-
-function guardarSesion(){
-
-    const expira =
-        Date.now() +
-        (CONFIG.loginHoras * 60 * 60 * 1000);
-
-    localStorage.setItem(
-        "portal_login",
-        JSON.stringify({
-
-            autorizado:true,
-
-            expira
-
-        })
-    );
-
-}
-
-function sesionValida(){
-
-    const datos =
-        JSON.parse(
-            localStorage.getItem("portal_login")
-        );
-
-    if(!datos){
-
-        return false;
-
-    }
-
-    if(datos.expira < Date.now()){
-
-        localStorage.removeItem("portal_login");
-
-        return false;
-
-    }
-
-    return true;
 
 }
 
@@ -458,7 +413,7 @@ function validarLogin(){
 
     }
 
-    guardarSesion();
+    sessionStorage.setItem("portal_login","ok");
 
     mostrarPortal();
 
@@ -467,8 +422,11 @@ function validarLogin(){
 showPassword.addEventListener("change",()=>{
 
     password.type=
+
         showPassword.checked
+
         ? "text"
+
         : "password";
 
 });
@@ -491,7 +449,7 @@ INICIALIZACIÓN
 
 render();
 
-if(sesionValida()){
+if(sessionStorage.getItem("portal_login")==="ok"){
 
     mostrarPortal();
 
