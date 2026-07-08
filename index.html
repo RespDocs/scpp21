@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Documentos Digitales SCPP21</title>
+
+<title>Documentos Digitales</title>
 
 <style>
+
 :root{
     --bg:#f5f5f5;
     --card:#ffffff;
@@ -13,11 +15,11 @@
     --shadow:0 4px 10px rgba(0,0,0,.08);
 }
 
-@media (prefers-color-scheme: dark){
+@media(prefers-color-scheme:dark){
 :root{
     --bg:#121212;
     --card:#1f1f1f;
-    --text:#eeeeee;
+    --text:#eee;
     --shadow:0 4px 10px rgba(0,0,0,.35);
 }
 }
@@ -41,30 +43,6 @@ body{
     padding:20px;
 }
 
-.header{
-    display:flex;
-    justify-content:flex-start;
-    margin-bottom:10px;
-}
-
-.btn-volver{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:10px 14px;
-    background:#1976d2;
-    color:#fff;
-    text-decoration:none;
-    border-radius:10px;
-    font-weight:600;
-    box-shadow:var(--shadow);
-    transition:.2s;
-}
-
-.btn-volver:hover{
-    opacity:.9;
-}
-
 h1{
     text-align:center;
     margin:10px 0 24px;
@@ -80,187 +58,409 @@ h1{
     margin:14px 0;
     box-shadow:var(--shadow);
     border-left:8px solid;
-    transition:transform .2s ease;
+    transition:.2s;
 }
 
 .card:hover{
     transform:translateY(-2px);
 }
 
-.card.green{
+.green{
     border-color:#2e7d32;
 }
 
-.card.yellow{
+.yellow{
     border-color:#f9a825;
 }
 
-.card.red{
+.red{
     border-color:#c62828;
 }
 
 .title{
     font-weight:700;
-    font-size:1.05rem;
     margin-bottom:12px;
+    font-size:1.05rem;
 }
 
 .row{
     display:flex;
     justify-content:space-between;
-    align-items:center;
     font-size:.95rem;
 }
 
-<style>
-#loginOverlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999}
-#loginBox{background:var(--card);padding:30px;border-radius:16px;box-shadow:var(--shadow);width:90%;max-width:340px;text-align:center}
-#siteContent{display:none}
-#loginBox input[type=password],#loginBox input[type=text]{width:100%;padding:10px;margin:12px 0}
-#loginBox button{width:100%;padding:10px;background:#1976d2;color:#fff;border:none;border-radius:8px}
-#error{color:#c62828;height:1.2em}
+#loginOverlay{
+    position:fixed;
+    inset:0;
+    background:var(--bg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+#loginBox{
+    width:90%;
+    max-width:340px;
+    background:var(--card);
+    padding:30px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:var(--shadow);
+}
+
+#loginBox input[type=password],
+#loginBox input[type=text]{
+    width:100%;
+    padding:10px;
+    margin:12px 0;
+}
+
+#loginBox button{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#1976d2;
+    color:#fff;
+    cursor:pointer;
+}
+
+#error{
+    color:#c62828;
+    height:20px;
+    margin-top:10px;
+}
+
+#siteContent{
+    display:none;
+}
+
 </style>
-</style>
+
 </head>
 
 <body>
-<div id='loginOverlay'><div id='loginBox'><h2>Documentos Digitales SCPP21</h2><p>Ingrese contraseña</p><input id='pwd' type='password'><label><input id='show' type='checkbox'> Mostrar contraseña</label><br><br><button onclick='checkLogin()'>INGRESAR</button><div id='error'></div></div></div>
-<div id='siteContent'>
 
-<div class="app">
+<div id="loginOverlay">
 
-    <h1>Documentos Digitales SCPP21</h1>
+    <div id="loginBox">
 
-    <div id="lista"></div>
+        <h2 id="loginTitle"></h2>
+
+        <p>Ingrese contraseña</p>
+
+        <input
+            id="password"
+            type="password"
+            autocomplete="off"
+        >
+
+        <label>
+
+            <input
+                id="showPassword"
+                type="checkbox"
+            >
+
+            Mostrar contraseña
+
+        </label>
+
+        <br><br>
+
+        <button id="btnLogin">
+
+            INGRESAR
+
+        </button>
+
+        <div id="error"></div>
+
+    </div>
+
+</div>
+
+<div id="siteContent">
+
+    <div class="app">
+
+        <h1 id="pageTitle"></h1>
+
+        <div id="lista"></div>
+
+    </div>
 
 </div>
 
 <script>
 
-//==========================================
-// DOCUMENTOS
-//==========================================
+/*==========================================
+CONFIGURACIÓN
+==========================================*/
 
-const enlaces = [
+const CONFIG={
+
+    patente:"SCPP21",
+
+    vehiculo:"Chery Tiggo 8 Pro",
+
+    año:2022,
+
+    password:"mmorales"
+
+};
+
+const BASE_URL=`https://respdocs.github.io/${CONFIG.patente.toLowerCase()}/`;
+
+/*==========================================
+DOCUMENTOS
+==========================================*/
+
+const DOCUMENTOS=[
 
 {
     titulo:"Permiso de Circulación",
-    url:"https://respdocs.github.io/scpp21/permiso-circulacion",
+    archivo:"permiso-circulacion",
     vence:"2026-08-31"
 },
 
 {
     titulo:"Seguro Obligatorio (SOAP)",
-    url:"https://respdocs.github.io/scpp21/soap",
+    archivo:"soap",
     vence:"2027-03-31"
 },
 
 {
     titulo:"Revisión Técnica",
-    url:"https://respdocs.github.io/scpp21/revision-tecnica",
+    archivo:"revision-tecnica",
     vence:"2027-04-30"
 },
 
 {
     titulo:"Revisión de Gases",
-    url:"https://respdocs.github.io/scpp21/revision-gases",
+    archivo:"revision-gases",
     vence:"2027-04-30"
 },
 
-
 {
     titulo:"Certificado de inscripción (Padron)",
-    url:"https://respdocs.github.io/scpp21/inscripcion"
+    archivo:"inscripcion"
 },
+
 {
     titulo:"Normativa Legal",
-    url:"https://respdocs.github.io/scpp21/marco-legal"
+    archivo:"marco-legal"
 }
 
 ];
 
-//==========================================
-// FUNCIONES
-//==========================================
+/*==========================================
+REFERENCIAS
+==========================================*/
 
-function fmt(fecha){
+const pageTitle=document.getElementById("pageTitle");
+const loginTitle=document.getElementById("loginTitle");
+const lista=document.getElementById("lista");
 
-    const d = new Date(fecha + "T00:00:00");
+const loginOverlay=document.getElementById("loginOverlay");
+const siteContent=document.getElementById("siteContent");
 
-    return String(d.getDate()).padStart(2,"0") + "/" +
-           String(d.getMonth()+1).padStart(2,"0") + "/" +
-           d.getFullYear();
+const password=document.getElementById("password");
+const showPassword=document.getElementById("showPassword");
+const btnLogin=document.getElementById("btnLogin");
+const error=document.getElementById("error");
+
+pageTitle.textContent=`Documentos Digitales ${CONFIG.patente}`;
+loginTitle.textContent=`Documentos Digitales ${CONFIG.patente}`;
+
+/*==========================================
+FUNCIONES
+==========================================*/
+
+function formatearFecha(fecha){
+
+    const d=new Date(fecha+"T00:00:00");
+
+    return `${String(d.getDate()).padStart(2,"0")}/${
+        String(d.getMonth()+1).padStart(2,"0")
+    }/${d.getFullYear()}`;
 
 }
 
-function estado(fecha){
+function obtenerEstado(fecha){
 
-    const hoy = new Date();
+    const hoy=new Date();
+
     hoy.setHours(0,0,0,0);
 
-    const ven = new Date(fecha + "T00:00:00");
+    const vence=new Date(fecha+"T00:00:00");
 
-    const dias = Math.ceil((ven - hoy)/86400000);
+    const dias=Math.ceil((vence-hoy)/86400000);
 
-    let cls = "green";
+    let color="green";
 
-    if(dias < 60){
-        cls = "red";
+    if(dias<60){
+
+        color="red";
+
+    }else if(dias<=120){
+
+        color="yellow";
+
     }
-    else if(dias <= 120){
-        cls = "yellow";
-    }
 
-    return {
+    return{
+
         dias,
-        cls
+
+        color
+
     };
 
 }
 
-//==========================================
-// RENDERIZADO
-//==========================================
+function crearTarjeta(doc){
+        const card = document.createElement("a");
 
-const cont = document.getElementById("lista");
+    card.href = BASE_URL + doc.archivo;
 
-enlaces.forEach(e=>{
+    if(doc.vence){
 
-    const a = document.createElement("a");
+        const estado = obtenerEstado(doc.vence);
 
-    a.href = e.url;
-    a.target = "_self";
+        card.className = `card ${estado.color}`;
 
-    if(e.vence){
-
-        const s = estado(e.vence);
-
-        a.className = "card " + s.cls;
-
-        a.innerHTML = `
-            <div class="title">🔗 ${e.titulo}</div>
+        card.innerHTML = `
+            <div class="title">
+                🔗 ${doc.titulo}
+            </div>
 
             <div class="row">
-                <span>📅 Vence: ${fmt(e.vence)}</span>
-                <span>${s.dias < 0 ? "🔴 VENCIDO" : "⏳ Faltan " + s.dias + " días"}</span>
+                <span>
+                    📅 Vence: ${formatearFecha(doc.vence)}
+                </span>
+
+                <span>
+                    ${
+                        estado.dias < 0
+                        ? "🔴 VENCIDO"
+                        : `⏳ Faltan ${estado.dias} días`
+                    }
+                </span>
             </div>
         `;
 
     }else{
 
-        a.className = "card green";
+        card.className = "card green";
 
-        a.innerHTML = `
-            <div class="title">📘 ${e.titulo}</div>
+        card.innerHTML = `
+            <div class="title">
+                📘 ${doc.titulo}
+            </div>
         `;
 
     }
 
-    cont.appendChild(a);
+    return card;
+
+}
+
+/*==========================================
+RENDERIZADO
+==========================================*/
+
+function render(){
+
+    lista.innerHTML = "";
+
+    DOCUMENTOS.forEach(doc=>{
+
+        lista.appendChild(
+
+            crearTarjeta(doc)
+
+        );
+
+    });
+
+}
+
+/*==========================================
+LOGIN
+==========================================*/
+
+function mostrarPortal(){
+
+    loginOverlay.style.display="none";
+
+    siteContent.style.display="block";
+
+}
+
+function validarLogin(){
+
+    if(password.value!==CONFIG.password){
+
+        error.textContent="Contraseña incorrecta";
+
+        password.focus();
+
+        password.select();
+
+        return;
+
+    }
+
+    sessionStorage.setItem("portal_login","ok");
+
+    mostrarPortal();
+
+}
+
+showPassword.addEventListener("change",()=>{
+
+    password.type=
+
+        showPassword.checked
+
+        ? "text"
+
+        : "password";
 
 });
 
+btnLogin.addEventListener("click",validarLogin);
+
+password.addEventListener("keydown",e=>{
+
+    if(e.key==="Enter"){
+
+        validarLogin();
+
+    }
+
+});
+
+/*==========================================
+INICIALIZACIÓN
+==========================================*/
+
+render();
+
+if(sessionStorage.getItem("portal_login")==="ok"){
+
+    mostrarPortal();
+
+}else{
+
+    password.focus();
+
+}
+
 </script>
 
-</div><script>const PASS='mmorales';document.getElementById('show').onchange=e=>pwd.type=e.target.checked?'text':'password';function checkLogin(){if(pwd.value===PASS){loginOverlay.style.display='none';siteContent.style.display='block';}else error.textContent='Contraseña incorrecta';}pwd.addEventListener('keydown',e=>{if(e.key==='Enter')checkLogin();});</script></body>
+</body>
+
 </html>
